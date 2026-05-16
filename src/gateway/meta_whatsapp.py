@@ -22,7 +22,7 @@ async def send_whatsapp_message(to_phone: str, message: str) -> dict | None:
     settings = get_settings()
     
     if not settings.meta_whatsapp_token or not settings.meta_whatsapp_phone_id:
-        logger.warning("Meta WhatsApp not configured — skipping send.")
+        logger.warning(f"Meta WhatsApp not configured. Token present: {bool(settings.meta_whatsapp_token)}, Phone ID: {settings.meta_whatsapp_phone_id}")
         return None
     
     url = META_API_URL.format(phone_id=settings.meta_whatsapp_phone_id)
