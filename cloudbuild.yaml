@@ -15,6 +15,6 @@ steps:
       - '--region=us-central1'
       - '--platform=managed'
       - '--allow-unauthenticated'
-      - '--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,GOOGLE_GENAI_USE_VERTEXAI=TRUE'
-      - '--set-secrets=AT_API_KEY=at-api-key:latest,AT_USERNAME=at-username:latest'
+      - '--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,GOOGLE_GENAI_USE_VERTEXAI=FALSE,META_WHATSAPP_PHONE_ID=1106873062515613'
+      - '--set-secrets=AT_API_KEY=at-api-key:latest,AT_USERNAME=at-username:latest,META_WHATSAPP_TOKEN=meta-whatsapp-token:latest,GOOGLE_API_KEY=google-ai-api-key:latest'
       - '--service-account=sauti-runner@$PROJECT_ID.iam.gserviceaccount.com'
