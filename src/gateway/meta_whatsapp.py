@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-META_API_URL = "https://graph.facebook.com/v21.0/{phone_id}/messages"
+META_API_URL = "https://graph.facebook.com/v25.0/{phone_id}/messages"
 
 
 async def send_whatsapp_message(to_phone: str, message: str) -> dict | None:
