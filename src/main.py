@@ -5,25 +5,34 @@ from src.gateway.webhooks import router as webhook_router
 import logging
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Sauti ya Mwananchi Gateway",
-    description="Stateless Gateway for Africa's Talking Integration",
-    version="1.0.0"
+    description="Multi-channel civic participation gateway (SMS, USSD, WhatsApp)",
+    version="2.0.0"
 )
 
 # Health Check
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "sauti-ya-mwananchi"}
+    return {"status": "healthy", "service": "sauti-ya-mwananchi", "version": "2.0.0"}
 
 @app.get("/")
 async def root():
     return {
         "service": "Sauti ya Mwananchi",
-        "endpoints": ["/webhook/sms", "/webhook/ussd", "/webhook/whatsapp", "/health"]
+        "version": "2.0.0",
+        "channels": {
+            "sms": "/webhook/sms",
+            "ussd": "/webhook/ussd",
+            "whatsapp": "/webhook/whatsapp (Meta Cloud API)"
+        },
+        "health": "/health"
     }
 
 # Include routers

@@ -1,31 +1,35 @@
 # scripts/verify_environment.ps1
-Write-Host "=== Sauti ya Mwananchi — Environment Verification ===" -ForegroundColor Cyan
-Write-Host ""
+Write-Host '=== Sauti ya Mwananchi — Environment Verification ===' -ForegroundColor Cyan
 
 $checks = @(
-    @{ Name = "Python 3.12+";    Cmd = "python --version" },
-    @{ Name = "pip";             Cmd = "pip --version" },
-    @{ Name = "Git";             Cmd = "git --version" },
-    @{ Name = "Google Cloud CLI";Cmd = "gcloud --version" },
-    @{ Name = "Docker";          Cmd = "docker --version" },
-    @{ Name = "ngrok";           Cmd = "ngrok --version" }
+    @{ Name = 'Python'; Cmd = 'python --version' },
+    @{ Name = 'pip';    Cmd = 'python -m pip --version' },
+    @{ Name = 'Git';    Cmd = 'git --version' },
+    @{ Name = 'Gcloud'; Cmd = 'gcloud --version' },
+    @{ Name = 'Docker'; Cmd = 'docker --version' },
+    @{ Name = 'ngrok';  Cmd = 'ngrok --version' }
 )
 
 $failed = @()
 foreach ($check in $checks) {
+    $name = $check.Name
+    $cmd = $check.Cmd
     try {
-        $output = Invoke-Expression $check.Cmd 2>&1 | Select-Object -First 1
-        Write-Host "[PASS] $($check.Name): $output" -ForegroundColor Green
+        $output = Invoke-Expression $cmd 2>&1 | Select-Object -First 1
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "[PASS] $name : $output" -ForegroundColor Green
+        } else {
+            Write-Host "[FAIL] $name" -ForegroundColor Red
+            $failed += $name
+        }
     } catch {
-        Write-Host "[FAIL] $($check.Name): NOT FOUND" -ForegroundColor Red
-        $failed += $check.Name
+        Write-Host "[FAIL] $name" -ForegroundColor Red
+        $failed += $name
     }
 }
 
-Write-Host ""
-if ($failed.Count -eq 0) {
-    Write-Host "All checks passed. Ready for Phase 0." -ForegroundColor Green
+if ($failed.Count -gt 0) {
+    Write-Host 'Missing tools detected.' -ForegroundColor Red
 } else {
-    $msg = "MISSING: " + ($failed -join ", ") + ". Install before proceeding."
-    Write-Host $msg -ForegroundColor Red
+    Write-Host 'All tools verified.' -ForegroundColor Green
 }

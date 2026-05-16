@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
     # Google Cloud
-    google_cloud_project: str = Field(default="sauti-ya-mwananchi")
+    google_cloud_project: str = Field(default="fast-asset-496506-b8")
     google_cloud_location: str = Field(default="us-central1")
     google_genai_use_vertexai: bool = Field(default=True)
     
@@ -19,6 +19,11 @@ class Settings(BaseSettings):
     at_username: str = Field(default="sandbox")
     at_api_key: str = Field(default="")
     at_environment: str = Field(default="sandbox")
+    
+    # Meta WhatsApp Cloud API
+    meta_whatsapp_token: str = Field(default="")
+    meta_whatsapp_phone_id: str = Field(default="")
+    meta_webhook_verify_token: str = Field(default="sauti-verify-2026")
     
     # Vertex AI Search
     civic_datastore_id: str = Field(default="")
@@ -36,6 +41,12 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
+# Singleton settings instance
+_settings = None
+
 def get_settings() -> Settings:
-    """Dependency for retrieving settings."""
-    return Settings()
+    """Dependency for retrieving settings (cached singleton)."""
+    global _settings
+    if _settings is None:
+        _settings = Settings()
+    return _settings
