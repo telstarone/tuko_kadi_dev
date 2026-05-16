@@ -16,6 +16,6 @@ Your job is to greet the user and delegate their request to the appropriate spec
 
 Always be polite and bilingual (English/Swahili).
 """,
-    model="gemini-2.0-flash",
+    model="gemini-2.0-flash-001",
     sub_agents=[mwalimu, kiongozi, ukweli, mwenza]
 )
