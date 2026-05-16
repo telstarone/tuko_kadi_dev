@@ -5,8 +5,9 @@
 **Sauti ya Mwananchi** ("Voice of the Citizen") is an AI-powered multi-agent civic participation platform that bridges the critical gap between voter registration and meaningful democratic engagement. Built for Kenya's 2027 election cycle and the #TukoKadi movement, it delivers constitutional education, polling station lookup, real-time misinformation fact-checking, and election day guidance through **WhatsApp, SMS, and USSD** — reaching citizens on smartphones and feature phones alike.
 
 [![Built with Google ADK](https://img.shields.io/badge/Built%20with-Google%20ADK-4285F4?logo=google&logoColor=white)](#)
-[![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Gemini%202.0-8E75B2?logo=google&logoColor=white)](#)
+[![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Gemini%203.1-8E75B2?logo=google&logoColor=white)](#)
 [![Deployed on Cloud Run](https://img.shields.io/badge/Deployed%20on-Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](#)
+[![Meta WhatsApp](https://img.shields.io/badge/WhatsApp-Meta%20Developer%20API-25D366?logo=whatsapp&logoColor=white)](#)
 [![Africa's Talking](https://img.shields.io/badge/Integrated-Africa's%20Talking-F5A623)](#)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](#license)
 
@@ -101,11 +102,11 @@ Sauti ya Mwananchi is built as a hierarchical multi-agent system using the [Goog
 
 | Agent | Swahili Name | Role | Key Tools | Model |
 |-------|-------------|------|-----------|-------|
-| **Msaidizi** | *Helper* | Root orchestrator. Receives all messages, detects language (English/Swahili/Sheng), classifies intent, scrubs PII, and delegates to the correct specialist agent. | Intent classification, PII scrubbing, `transfer_to_agent` | Gemini 2.0 Flash |
-| **Mwalimu** | *Teacher* | Civic education specialist. Answers questions about constitutional rights, the electoral process, government structure, and voter responsibilities using **only** RAG-retrieved, cited sources. | `search_civic_knowledge` (Vertex AI Search), `get_constitution_article` | Gemini 2.0 Flash |
-| **Kiongozi** | *Guide/Leader* | Polling station locator. Helps citizens find their designated voting location based on county, constituency, or ward — without requiring personal IDs. | `find_polling_station`, `list_constituencies` | Gemini 2.0 Flash |
-| **Ukweli** | *Truth* | Misinformation fact-checker. Analyzes text claims and **images** (via Gemini Vision) of political propaganda. Returns VERIFIED, FALSE, or UNVERIFIED verdicts with source citations. | `analyze_image_content` (Gemini Vision), `search_verified_claims`, `search_civic_knowledge` | Gemini 2.0 Flash |
-| **Mwenza** | *Companion* | Election Day companion. Provides step-by-step voting guidance optimized for USSD character limits and SMS constraints. Covers queue procedures, ballot marking, and voter rights at the station. | `get_election_day_step`, `get_voter_rights_at_station` | Gemini 2.0 Flash |
+| **Msaidizi** | *Helper* | Root orchestrator. Receives all messages, detects language (English/Swahili/Sheng), classifies intent, scrubs PII, and delegates to the correct specialist agent. | Intent classification, PII scrubbing, `transfer_to_agent` | Gemini 3.1 Flash-Lite |
+| **Mwalimu** | *Teacher* | Civic education specialist. Answers questions about constitutional rights, the electoral process, government structure, and voter responsibilities using **only** RAG-retrieved, cited sources. | `search_civic_knowledge` (Vertex AI Search), `get_constitution_article` | Gemini 3.1 Flash-Lite |
+| **Kiongozi** | *Guide/Leader* | Polling station locator. Helps citizens find their designated voting location based on county, constituency, or ward — without requiring personal IDs. | `find_polling_station`, `list_constituencies` | Gemini 3.1 Flash-Lite |
+| **Ukweli** | *Truth* | Misinformation fact-checker. Analyzes text claims and **images** (via Gemini Vision) of political propaganda. Returns VERIFIED, FALSE, or UNVERIFIED verdicts with source citations. | `analyze_image_content` (Gemini Vision), `search_verified_claims`, `search_civic_knowledge` | Gemini 3.1 Flash-Lite |
+| **Mwenza** | *Companion* | Election Day companion. Provides step-by-step voting guidance optimized for USSD character limits and SMS constraints. Covers queue procedures, ballot marking, and voter rights at the station. | `get_election_day_step`, `get_voter_rights_at_station` | Gemini 3.1 Flash-Lite |
 
 ### Agent Communication Protocol
 
@@ -118,7 +119,7 @@ Agents communicate through **ADK shared session state** (`session.state`). The o
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
 | **AI Framework** | [Google ADK](https://github.com/google/adk-python) | Multi-agent orchestration, tool execution, session management |
-| **Foundation Model** | Gemini 2.0 Flash / Pro | Reasoning, language understanding, response generation |
+| **Foundation Model** | Gemini 3.1 Flash-Lite | Reasoning, language understanding, response generation |
 | **Vision AI** | Gemini Vision (multimodal) | Image analysis for fact-checking political propaganda |
 | **RAG Engine** | Vertex AI Search | Vector search over Constitution, Elections Act, IEBC docs |
 | **Embeddings** | Vertex AI Text Embeddings | Document chunking and semantic retrieval |
@@ -134,6 +135,7 @@ Agents communicate through **ADK shared session state** (`session.state`). The o
 ## 📱 Interaction Channels
 
 ### WhatsApp
+- Powered by the **Meta Developer API** (WhatsApp Cloud API)
 - Rich text responses with formatting and emoji
 - **Image support**: Send a screenshot of a suspicious post → Ukweli analyzes it via Gemini Vision
 - Up to 4,096 characters per response
@@ -145,7 +147,7 @@ Agents communicate through **ADK shared session state** (`session.state`). The o
 - Best for quick civic questions and polling station lookup
 
 ### USSD
-- Menu-driven navigation via dial codes (e.g., `*384*123#`)
+- Menu-driven navigation via dial codes: **`*384*9196#`**
 - 182-character limit per screen
 - Fully stateless transaction handling
 - **Zero internet, zero data costs** — works on the most basic feature phones
