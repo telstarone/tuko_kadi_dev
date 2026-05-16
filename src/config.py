@@ -1,7 +1,7 @@
 """Configuration management for Sauti ya Mwananchi."""
 
 import os
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 
@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     google_cloud_project: str = Field(default="fast-asset-496506-b8")
     google_cloud_location: str = Field(default="us-central1")
     google_genai_use_vertexai: bool = Field(default=True)
+    google_api_key: str = Field(default="")
     
     # Africa's Talking
     at_username: str = Field(default="sandbox")
@@ -34,8 +35,6 @@ class Settings(BaseSettings):
     # App
     log_level: str = Field(default="INFO")
     port: int = Field(default=8080)
-
-    from pydantic import field_validator
 
     @field_validator("meta_whatsapp_token", "meta_whatsapp_phone_id", "google_api_key", mode="after")
     @classmethod
