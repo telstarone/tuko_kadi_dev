@@ -393,7 +393,7 @@ Agent: "⚠️ PARTIALLY VERIFIED. You need your original National ID card OR
 
 **USSD Election Day Guide (Mwenza)**
 ```
-*384*123# → "CON Siku ya Uchaguzi:
+*384*9196# → "CON Siku ya Uchaguzi:
 1. Maandalizi
 2. Foleni na utambulisho
 3. Kupiga kura
