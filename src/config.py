@@ -35,6 +35,13 @@ class Settings(BaseSettings):
     log_level: str = Field(default="INFO")
     port: int = Field(default=8080)
 
+    from pydantic import field_validator
+
+    @field_validator("meta_whatsapp_token", "meta_whatsapp_phone_id", "google_api_key", mode="after")
+    @classmethod
+    def strip_whitespace(cls, v: str) -> str:
+        return v.strip() if isinstance(v, str) else v
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
